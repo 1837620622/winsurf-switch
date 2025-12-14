@@ -59,7 +59,7 @@ class WindsurfAccountSwitcher:
         """
         self.root = root
         self.root.title("Windsurf 账号切换器 (Mac) - 开源免费")
-        self.root.geometry("550x500")
+        self.root.geometry("550x560")
         self.root.resizable(True, True)
         
         # 确保Profile目录存在
@@ -117,24 +117,44 @@ class WindsurfAccountSwitcher:
         ttk.Button(btn_frame, text="刷新", command=self.refresh_all).pack(side=tk.RIGHT, padx=5)
         
         # 作者信息水印区域
-        author_frame = ttk.LabelFrame(self.root, text="关于", padding=5)
-        author_frame.pack(fill=tk.X, padx=10, pady=5)
+        author_frame = ttk.LabelFrame(self.root, text="✨ 作者信息 ✨", padding=8)
+        author_frame.pack(fill=tk.X, padx=10, pady=8)
         
-        author_info = ttk.Label(
+        # 作者名称
+        author_name = ttk.Label(
             author_frame, 
-            text="🌟 开源免费 | GitHub: github.com/1837620622/winsurf-switch | 欢迎Star支持!",
+            text="👨‍💻 传康KK（万能程序员）",
+            foreground='#e91e63',
+            font=('PingFang SC', 12, 'bold')
+        )
+        author_name.pack(anchor=tk.W, pady=(0, 5))
+        
+        # 微信联系
+        wechat_info = ttk.Label(
+            author_frame,
+            text="📱 微信：1837620622    📧 邮箱：2040168455@qq.com",
             foreground='#1a73e8',
             font=('PingFang SC', 10)
         )
-        author_info.pack(anchor=tk.W)
+        wechat_info.pack(anchor=tk.W, pady=2)
         
-        contact_info = ttk.Label(
+        # 平台信息
+        platform_info = ttk.Label(
             author_frame,
-            text="📱 微信: 1837620622（传康kk）| 📧 邮箱: 2040168455@qq.com | 🎬 咸鱼/B站: 万能程序员",
-            foreground='gray',
-            font=('PingFang SC', 9)
+            text="🎬 咸鱼/B站：万能程序员    ⭐ GitHub：github.com/1837620622",
+            foreground='#666666',
+            font=('PingFang SC', 10)
         )
-        contact_info.pack(anchor=tk.W)
+        platform_info.pack(anchor=tk.W, pady=2)
+        
+        # Star提示
+        star_info = ttk.Label(
+            author_frame,
+            text="🌟 开源免费，欢迎 Star 支持！",
+            foreground='#ff9800',
+            font=('PingFang SC', 10, 'bold')
+        )
+        star_info.pack(anchor=tk.W, pady=(5, 0))
         
         # 状态栏
         self.status_var = tk.StringVar(value="就绪 | 开源免费，欢迎Star支持！")
