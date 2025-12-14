@@ -105,7 +105,7 @@ class WindsurfAccountSwitcher:
             foreground='#e91e63',
             font=('Microsoft YaHei', 11, 'bold')
         )
-        author_name.pack(anchor=tk.W, pady=(0, 5))
+        author_name.pack(anchor=tk.CENTER, pady=(0, 5))
         
         # 微信联系
         wechat_info = ttk.Label(
@@ -114,7 +114,7 @@ class WindsurfAccountSwitcher:
             foreground='#1a73e8',
             font=('Microsoft YaHei', 9)
         )
-        wechat_info.pack(anchor=tk.W, pady=2)
+        wechat_info.pack(anchor=tk.CENTER, pady=2)
         
         # 平台信息
         platform_info = ttk.Label(
@@ -123,7 +123,7 @@ class WindsurfAccountSwitcher:
             foreground='#666666',
             font=('Microsoft YaHei', 9)
         )
-        platform_info.pack(anchor=tk.W, pady=2)
+        platform_info.pack(anchor=tk.CENTER, pady=2)
         
         # Star提示
         star_info = ttk.Label(
@@ -132,7 +132,7 @@ class WindsurfAccountSwitcher:
             foreground='#ff9800',
             font=('Microsoft YaHei', 9, 'bold')
         )
-        star_info.pack(anchor=tk.W, pady=(5, 0))
+        star_info.pack(anchor=tk.CENTER, pady=(5, 0))
         
         # 状态栏
         self.status_var = tk.StringVar(value="就绪 | 开源免费，欢迎Star支持！")
