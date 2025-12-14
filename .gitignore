@@ -1,0 +1,37 @@
+# ============================================================
+# Windsurf账号切换器 - Git忽略文件配置
+# ============================================================
+
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 用户配置文件（包含敏感账号数据，不应上传）
+windsurf_profiles/
+
+# macOS 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows 系统文件
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE 配置
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 虚拟环境
+venv/
+env/
+.env
+
+# 日志文件
+*.log
