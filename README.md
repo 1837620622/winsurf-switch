@@ -8,7 +8,17 @@
 
 ---
 
-## 📥 下载安装
+## � 关联项目
+
+| 项目 | 说明 | 链接 |
+|------|------|------|
+| **Windsurf-Switcher-Free** | VS Code/Windsurf 插件版本，无需单独运行程序 | [GitHub](https://github.com/1837620622/Windsurf-Switcher-Free) |
+
+> 💡 **推荐**：如果你更喜欢在 Windsurf 内直接切换账号，可以使用插件版本！
+
+---
+
+## �📥 下载安装
 
 ### 方式一：直接下载可执行文件（推荐）
 
