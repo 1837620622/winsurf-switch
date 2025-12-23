@@ -114,6 +114,7 @@ class WindsurfAccountSwitcher:
         ttk.Button(btn_frame, text="保存当前账号", command=self.save_current_profile).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame, text="切换账号", command=self.on_switch_click).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame, text="删除配置", command=self.delete_profile).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="📂 打开目录", command=self.open_profiles_dir).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame, text="刷新", command=self.refresh_all).pack(side=tk.RIGHT, padx=5)
         
         # 作者信息水印区域
@@ -232,6 +233,14 @@ class WindsurfAccountSwitcher:
         self.show_current_account()
         self.refresh_profiles()
         self.status_var.set("已刷新")
+    
+    def open_profiles_dir(self):
+        """打开配置文件存储目录"""
+        # 确保目录存在
+        os.makedirs(PROFILES_DIR, exist_ok=True)
+        # Mac 使用 open 命令打开目录
+        subprocess.run(['open', PROFILES_DIR])
+        self.status_var.set(f"已打开目录: {PROFILES_DIR}")
     
     # --------------------------------------------------------
     # 进程检测 (Mac版本)
