@@ -1,0 +1,125 @@
+# ============================================================
+# GitHub Actions 自动打包工作流
+# 功能：自动构建 Windows (exe) 和 macOS (app) 版本
+# ============================================================
+
+name: Build Releases
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  # --------------------------------------------------------
+  # Windows 打包任务
+  # --------------------------------------------------------
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装 PyInstaller
+        run: pip install pyinstaller
+
+      - name: 打包 Windows EXE
+        run: |
+          pyinstaller --onefile --windowed --name "Windsurf账号切换器_Windows" --icon=NONE windsurf_win.py
+
+      - name: 上传 Windows 构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windsurf-Windows-exe
+          path: dist/Windsurf账号切换器_Windows.exe
+
+  # --------------------------------------------------------
+  # macOS 打包任务
+  # --------------------------------------------------------
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装 PyInstaller
+        run: pip install pyinstaller
+
+      - name: 打包 macOS APP
+        run: |
+          pyinstaller --onefile --windowed --name "Windsurf账号切换器_Mac" windsurf_mac.py
+
+      - name: 创建 DMG 安装包
+        run: |
+          mkdir -p dmg_content
+          cp -r "dist/Windsurf账号切换器_Mac.app" dmg_content/ 2>/dev/null || cp "dist/Windsurf账号切换器_Mac" dmg_content/
+          hdiutil create -volname "Windsurf账号切换器" -srcfolder dmg_content -ov -format UDZO "Windsurf账号切换器_Mac.dmg"
+
+      - name: 上传 macOS 构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windsurf-Mac-dmg
+          path: |
+            Windsurf账号切换器_Mac.dmg
+            dist/Windsurf账号切换器_Mac
+
+  # --------------------------------------------------------
+  # 创建 Release 发布
+  # --------------------------------------------------------
+  release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: 下载所有构建产物
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: 显示文件结构
+        run: find artifacts -type f
+
+      - name: 创建 GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/Windsurf-Windows-exe/*
+            artifacts/Windsurf-Mac-dmg/*
+          body: |
+            ## 🚀 Windsurf 账号切换器
+            
+            **突破 Claude 4.5 模型 30 分钟等待限制！**
+            
+            ### 📦 下载说明
+            - **Windows 用户**: 下载 `Windsurf账号切换器_Windows.exe`
+            - **macOS 用户**: 下载 `Windsurf账号切换器_Mac.dmg` 或 `Windsurf账号切换器_Mac`
+            
+            ### ⚠️ 使用前必读
+            1. 先在 Windsurf 中手动登录账号
+            2. 完全关闭 Windsurf
+            3. 运行本工具保存账号
+            4. 重复以上步骤保存多个账号
+            5. 需要切换时，关闭 Windsurf 后使用本工具切换
+            
+            ### 📞 联系作者
+            - 微信: 1837620622（传康kk）
+            - 邮箱: 2040168455@qq.com
+            - 咸鱼/B站: 万能程序员
+            
+            ---
+            ⭐ 如果觉得有用，请给个 Star 支持一下！
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
